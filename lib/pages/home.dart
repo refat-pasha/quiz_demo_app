@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toodoo_app/pages/continuing.dart';
+import 'package:toodoo_app/pages/question.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -60,7 +61,7 @@ class _HomeState extends State<Home> {
                 "Be the first",
                 style: TextStyle(
                   color: Colors.black38,
-                  fontSize: 17,
+                  fontSize: 20,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -296,6 +297,87 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ],
+              ),
+              SizedBox(height: 30),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap:
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => QuestionPage()),
+                    ),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Material(
+                      elevation: 5,
+                      borderRadius: BorderRadius.circular(20),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color.fromARGB(255, 149, 64, 175),
+                              Color.fromARGB(255, 139, 29, 153),
+                              Color.fromARGB(255, 142, 9, 160),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.white54),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  padding: const EdgeInsets.all(5),
+                                  child: const Icon(
+                                    Icons.next_plan,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                const Text(
+                                  'Level 4',
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 5),
+                            const Text(
+                              'Question',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: -20,
+                      child: Image.asset(
+                        'images/airballon.png',
+                        width: 90,
+                        height: 90,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:toodoo_app/pages/home.dart';
 import 'package:toodoo_app/pages/continuing.dart';
 import 'package:toodoo_app/pages/question.dart';
+import 'package:toodoo_app/pages/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home:
-          Home(), // Change this to MyHomePage(title: 'Flutter Demo Home Page') to use the home page
+          SplashScreen(), // Change this to MyHomePage(title: 'Flutter Demo Home Page') to use the home page
       debugShowCheckedModeBanner: false,
     );
   }

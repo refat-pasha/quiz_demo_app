@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'continuing.dart';
 import 'question.dart';
+import 'profile.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -111,7 +112,21 @@ class _HomeState extends State<Home> {
                 children: [
                   _iconButton(Icons.favorite_border),
                   const SizedBox(width: 20),
-                  _iconButton(Icons.person),
+                  _iconButton(
+                    Icons.person,
+                    onTap:
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (_) => const ProfilePage(
+                                  userName: 'Refat Pasha',
+                                  userEmail: 'refat.pasha@example.com',
+                                  avatarUrl: 'https://i.pravatar.cc/150?img=3',
+                                ),
+                          ),
+                        ),
+                  ),
                 ],
               ),
               const SizedBox(height: 10),
@@ -134,7 +149,7 @@ class _HomeState extends State<Home> {
               ),
               const SizedBox(height: 30),
 
-              // Level Cards
+              // Level 1
               buildLevelCard(
                 level: 1,
                 title: 'Travel Newb',
@@ -147,6 +162,7 @@ class _HomeState extends State<Home> {
               ),
               const SizedBox(height: 30),
 
+              // Level 2
               buildLevelCard(
                 level: 2,
                 title: 'Continuing',
@@ -163,6 +179,7 @@ class _HomeState extends State<Home> {
               ),
               const SizedBox(height: 30),
 
+              // Level 3
               buildLevelCard(
                 level: 3,
                 title: 'Experienced',
@@ -175,6 +192,7 @@ class _HomeState extends State<Home> {
               ),
               const SizedBox(height: 30),
 
+              // Level 4
               buildLevelCard(
                 level: 4,
                 title: 'Question',
@@ -185,7 +203,6 @@ class _HomeState extends State<Home> {
                 imageAsset: 'images/airballon.png',
                 onTap: () => _openLevel(4),
               ),
-
               const SizedBox(height: 30),
             ],
           ),
@@ -194,14 +211,17 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _iconButton(IconData icon) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black38),
-        borderRadius: BorderRadius.circular(20),
+  Widget _iconButton(IconData icon, {VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black38),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        padding: const EdgeInsets.all(8),
+        child: Icon(icon, color: Colors.blue),
       ),
-      padding: const EdgeInsets.all(8),
-      child: Icon(icon, color: Colors.blue),
     );
   }
 }

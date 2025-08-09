@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'home.dart'; // Adjust this import if your actual home screen file name differs
+import 'package:shared_preferences/shared_preferences.dart';
+import 'welcome.dart';
+import 'home.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,11 +15,22 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () {
-      Navigator.of(
-        context,
-      ).pushReplacement(MaterialPageRoute(builder: (_) => const Home()));
-    });
+    _goNext();
+  }
+
+  Future<void> _goNext() async {
+    await Future.delayed(const Duration(seconds: 3));
+    final prefs = await SharedPreferences.getInstance();
+    final hasUser = prefs.containsKey('userName') && prefs.containsKey('userEmail');
+    if (hasUser) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const Home()),
+      );
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+      );
+    }
   }
 
   @override
@@ -28,7 +41,6 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: const [
-            // Example logo, replace with your own asset if needed:
             Icon(Icons.heat_pump_sharp, color: Colors.white, size: 96),
             SizedBox(height: 24),
             Text(

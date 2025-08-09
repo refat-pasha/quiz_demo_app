@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'edit_profile.dart';
+import 'welcome.dart';
 
-class ProfilePage extends StatelessWidget {
-  final String userName;
-  final String userEmail;
-  final String avatarUrl;
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key? key}) : super(key: key);
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
 
-  const ProfilePage({
-    Key? key,
-    required this.userName,
-    required this.userEmail,
-    required this.avatarUrl,
-  }) : super(key: key);
+class _ProfilePageState extends State<ProfilePage> {
+  String? _name, _email;
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
+  Future<void> _loadUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _name = prefs.getString('userName');
+      _email = prefs.getString('userEmail');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,58 +31,70 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Your Profile'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const EditProfilePage()),
+              );
+              _loadUser();
+            },
+          ),
+        ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 50,
-              backgroundImage: NetworkImage(avatarUrl),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              userName,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              userEmail,
-              style: const TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-            const SizedBox(height: 32),
-            ListTile(
-              leading: const Icon(Icons.edit),
-              title: const Text('Edit Profile'),
-              onTap: () {
-                // Navigate to edit profile screen
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.lock),
-              title: const Text('Change Password'),
-              onTap: () {
-                // Navigate to change password screen
-              },
-            ),
-            const Spacer(),
-            ElevatedButton.icon(
-              onPressed: () {
-                // Sign-out logic; return to initial screen
-                Navigator.of(context).popUntil((route) => route.isFirst);
-              },
-              icon: const Icon(Icons.logout),
-              label: const Text('Log Out'),
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.redAccent,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+      body:
+          _name == null || _email == null
+              ? const Center(child: CircularProgressIndicator())
+              : Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 32,
+                  horizontal: 24,
+                ),
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      child: Text(
+                        _name![0],
+                        style: const TextStyle(fontSize: 40),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      _name!,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      _email!,
+                      style: const TextStyle(fontSize: 16, color: Colors.grey),
+                    ),
+                    const Spacer(),
+                    ElevatedButton.icon(
+                      onPressed: () async {
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.clear();
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (_) => const WelcomeScreen(),
+                          ),
+                          (route) => false,
+                        );
+                      },
+                      icon: const Icon(Icons.logout),
+                      label: const Text('Log Out'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.redAccent,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

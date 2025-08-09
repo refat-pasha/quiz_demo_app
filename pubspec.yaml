@@ -11,7 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-
+  shared_preferences: ^2.0.15
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -26,3 +27,5 @@ flutter:
     - images/airballon.png
     - images/destination.png
     - images/ship.png
+    - images/logo.png
+

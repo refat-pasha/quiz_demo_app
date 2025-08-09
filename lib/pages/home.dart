@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:toodoo_app/pages/continuing.dart';
-import 'package:toodoo_app/pages/question.dart';
+import 'continuing.dart';
+import 'question.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -10,8 +10,94 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  void _openLevel(int level) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => QuestionPage(level: level)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final cardWidth = MediaQuery.of(context).size.width * 0.85;
+
+    Widget buildLevelCard({
+      required int level,
+      required String title,
+      required Color startColor,
+      required Color midColor,
+      required Color endColor,
+      required IconData icon,
+      required String imageAsset,
+      VoidCallback? onTap,
+    }) {
+      return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Material(
+              elevation: 5,
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                width: cardWidth,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: LinearGradient(
+                    colors: [startColor, midColor, endColor],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white54),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.all(5),
+                          child: Icon(icon, color: Colors.white),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Level $level',
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              right: 0,
+              top: -20,
+              child: Image.asset(imageAsset, width: 90, height: 90),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.only(top: 50, left: 20),
@@ -19,40 +105,21 @@ class _HomeState extends State<Home> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Top Row: Heart and Profile Icons
+              // Top Icons
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black38),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    padding: const EdgeInsets.all(8),
-                    child: const Icon(
-                      Icons.favorite_border,
-                      color: Colors.blue,
-                    ),
-                  ),
+                  _iconButton(Icons.favorite_border),
                   const SizedBox(width: 20),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black38),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    padding: const EdgeInsets.all(8),
-                    child: const Icon(Icons.person, color: Colors.blue),
-                  ),
-                  const SizedBox(width: 10),
+                  _iconButton(Icons.person),
                 ],
               ),
               const SizedBox(height: 10),
-              // Heading Texts
               const Text(
                 "Let's play",
                 style: TextStyle(
-                  color: Color(0xFFF35E7A), // Pink color
-                  fontSize: 28.0,
+                  color: Color(0xFFF35E7A),
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -67,322 +134,74 @@ class _HomeState extends State<Home> {
               ),
               const SizedBox(height: 30),
 
-              // Level 1 Card
-              Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Material(
-                    elevation: 5,
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.85,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color(0xFFEF729E),
-                            Color(0xFFEC7C86),
-                            Color(0xFFED896D),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white54),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                padding: const EdgeInsets.all(5),
-                                child: const Icon(
-                                  Icons.done,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              const Text(
-                                'Level 1',
-                                style: TextStyle(
-                                  color: Colors.white70,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 5),
-                          const Text(
-                            'Travel Newb',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    top: -20,
-                    child: Image.asset(
-                      'images/travel-bag.png',
-                      width: 90,
-                      height: 90,
-                    ),
-                  ),
-                ],
+              // Level Cards
+              buildLevelCard(
+                level: 1,
+                title: 'Travel Newb',
+                startColor: const Color(0xFFEF729E),
+                midColor: const Color(0xFFEC7C86),
+                endColor: const Color(0xFFED896D),
+                icon: Icons.done,
+                imageAsset: 'images/travel-bag.png',
+                onTap: () => _openLevel(1),
               ),
               const SizedBox(height: 30),
 
-              // Level 2 Card (whole card is tappable now)
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
+              buildLevelCard(
+                level: 2,
+                title: 'Continuing',
+                startColor: const Color(0xFF4446C7),
+                midColor: const Color(0xFF37469E),
+                endColor: const Color(0xFF7072C5),
+                icon: Icons.play_arrow,
+                imageAsset: 'images/airballon.png',
                 onTap:
                     () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ContinuePage()),
+                      MaterialPageRoute(builder: (_) => ContinuePage()),
                     ),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Material(
-                      elevation: 5,
-                      borderRadius: BorderRadius.circular(20),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.85,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          gradient: const LinearGradient(
-                            colors: [
-                              Color.fromARGB(255, 68, 70, 199),
-                              Color.fromARGB(255, 55, 70, 158),
-                              Color.fromARGB(255, 112, 114, 197),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                        ),
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.white54),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  padding: const EdgeInsets.all(5),
-                                  child: const Icon(
-                                    Icons.play_arrow,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  'Level 2',
-                                  style: TextStyle(
-                                    color: Colors.white70,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 5),
-                            const Text(
-                              'Continuing',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 0,
-                      top: -20,
-                      child: Image.asset(
-                        'images/airballon.png',
-                        width: 90,
-                        height: 90,
-                      ),
-                    ),
-                  ],
-                ),
               ),
               const SizedBox(height: 30),
 
-              // Level 3 Card
-              Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Material(
-                    elevation: 5,
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.85,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color.fromARGB(255, 84, 207, 121),
-                            Color.fromARGB(255, 51, 180, 105),
-                            Color.fromARGB(255, 19, 167, 68),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white54),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                padding: const EdgeInsets.all(5),
-                                child: const Icon(
-                                  Icons.lock,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              const Text(
-                                'Level 3',
-                                style: TextStyle(
-                                  color: Colors.white70,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 5),
-                          const Text(
-                            'Experienced',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    top: -20,
-                    child: Image.asset(
-                      'images/destination.png',
-                      width: 90,
-                      height: 90,
-                    ),
-                  ),
-                ],
+              buildLevelCard(
+                level: 3,
+                title: 'Experienced',
+                startColor: const Color(0xFF54CF79),
+                midColor: const Color(0xFF33B469),
+                endColor: const Color(0xFF13A744),
+                icon: Icons.lock,
+                imageAsset: 'images/destination.png',
+                onTap: () => _openLevel(3),
               ),
-              SizedBox(height: 30),
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap:
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => QuestionPage()),
-                    ),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Material(
-                      elevation: 5,
-                      borderRadius: BorderRadius.circular(20),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.85,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          gradient: const LinearGradient(
-                            colors: [
-                              Color.fromARGB(255, 149, 64, 175),
-                              Color.fromARGB(255, 139, 29, 153),
-                              Color.fromARGB(255, 142, 9, 160),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                        ),
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.white54),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  padding: const EdgeInsets.all(5),
-                                  child: const Icon(
-                                    Icons.next_plan,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  'Level 4',
-                                  style: TextStyle(
-                                    color: Colors.white70,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 5),
-                            const Text(
-                              'Question',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 0,
-                      top: -20,
-                      child: Image.asset(
-                        'images/airballon.png',
-                        width: 90,
-                        height: 90,
-                      ),
-                    ),
-                  ],
-                ),
+              const SizedBox(height: 30),
+
+              buildLevelCard(
+                level: 4,
+                title: 'Question',
+                startColor: const Color(0xFF9540AF),
+                midColor: const Color(0xFF8B1D99),
+                endColor: const Color(0xFF8E09A0),
+                icon: Icons.next_plan,
+                imageAsset: 'images/airballon.png',
+                onTap: () => _openLevel(4),
               ),
+
+              const SizedBox(height: 30),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _iconButton(IconData icon) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black38),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      padding: const EdgeInsets.all(8),
+      child: Icon(icon, color: Colors.blue),
     );
   }
 }

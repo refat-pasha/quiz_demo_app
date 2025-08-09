@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:toodoo_app/pages/home.dart';
 
 class ContinuePage extends StatelessWidget {
+  const ContinuePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

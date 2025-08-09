@@ -15,7 +15,7 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   final bool startAtHome;
-  const MyApp({Key? key, required this.startAtHome}) : super(key: key);
+  const MyApp({super.key, required this.startAtHome});
 
   @override
   Widget build(BuildContext context) {

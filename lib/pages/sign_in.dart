@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'home.dart';
 
 class SignInPage extends StatefulWidget {
-  const SignInPage({Key? key}) : super(key: key);
+  const SignInPage({super.key});
 
   @override
   State<SignInPage> createState() => _SignInPageState();

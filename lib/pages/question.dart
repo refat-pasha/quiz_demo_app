@@ -306,7 +306,7 @@ final List<QuizQuestion> allQuestions = [
 
 class QuestionPage extends StatefulWidget {
   final int level;
-  const QuestionPage({Key? key, required this.level}) : super(key: key);
+  const QuestionPage({super.key, required this.level});
 
   @override
   State<QuestionPage> createState() => _QuestionPageState();

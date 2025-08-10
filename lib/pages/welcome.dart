@@ -8,6 +8,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF348ef2),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -23,7 +24,9 @@ class WelcomeScreen extends StatelessWidget {
                     MaterialPageRoute(builder: (_) => const SignInPage()),
                   );
                 },
-                style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(50)),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(50),
+                ),
                 child: const Text('Log In'),
               ),
               const SizedBox(height: 16),
@@ -34,7 +37,10 @@ class WelcomeScreen extends StatelessWidget {
                     MaterialPageRoute(builder: (_) => const SignUpPage()),
                   );
                 },
-                style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(50)),
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  minimumSize: const Size.fromHeight(50),
+                ),
                 child: const Text('Sign Up'),
               ),
             ],

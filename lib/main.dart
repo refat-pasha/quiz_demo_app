@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'pages/welcome.dart';
 import 'pages/home.dart';
 import 'pages/splash_screen.dart';
 
